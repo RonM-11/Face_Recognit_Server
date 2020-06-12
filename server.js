@@ -1,0 +1,58 @@
+const express = require ('express');
+const app = express();
+const bcrypt = require('bcrypt-nodejs');
+const cors = require('cors');
+const knex = require('knex');
+
+const register = require('./controllers/register');
+const signin = require('./controllers/signin');
+const profile = require('./controllers/profile');
+const image = require('./controllers/image');
+
+const db = knex({
+  client: 'pg',
+  connection: {
+    host : '127.0.0.1',
+    user : 'postgres',
+    password : '123',
+    database : 'smart_brain'
+  }
+});
+
+app.use(express.json());
+app.use(cors());
+
+/* 1 */
+app.get('/', (req, res) =>{
+	res.send(database.users);
+})
+
+/* 2 */
+app.post('/signin', signin.handleSignin(db, bcrypt));
+
+/* 3 */
+app.post('/register', register.handleRegister(db, bcrypt));
+
+/* 4 */
+app.get('/profile/:id', profile.handleProfileGet(db));
+
+/* 5 */
+app.put('/image', image.handleImage(db));
+
+
+app.post('/imageurl', image.handleApiCall(db));
+
+
+app.listen(3001, () =>{
+	console.log('app is running on port 3001')
+})
+
+
+
+/*
+/ --> res = this is working
+/signin --> POST = success/fail
+/register --> POST = user
+/profile/:userId --> Get = user
+/image --> PUT --> user
+*/
