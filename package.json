@@ -17,7 +17,11 @@
     "knex": "^0.21.1",
     "pg": "^8.2.1"
   },
-  // "devDependencies": {
-  //   "nodemon": "^2.0.4"
-  // }
+  "devDependencies": {
+    "nodemon": "^2.0.4"
+  },
+
+  "engines": {
+    "node": "12.16.3"
+  }
 }
